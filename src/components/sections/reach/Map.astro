@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import lisbonMap from "src/images/lisbon_map_2.png"
+
+const cidades = [
+    'Lisboa',
+    'Cascais',
+    'Costa da Caparica',
+    'Montijo',
+    'Almada'
+]
+
+---
+
+<!-- Block to display the feature image -->
+<div class="my-6 md:my-24 flex flex-col md:flex-row items-center gap-8 rounded-xl items-start">
+  <!-- Left column: Image -->
+  <div class="w-full md:w-1/2 relative">
+    <Image
+      src={lisbonMap}
+      alt="Map of Lisboa, Portugal"
+      class="object-cover object-center opacity-80 rounded-4xl w-full h-full"
+      draggable="false"
+      format="avif"
+      loading="eager"
+    />
+    <!-- <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-4 border-blue-500 rounded-full w-[90%] h-[90%] animate-pulse"></div> -->
+  </div>
+
+  <!-- Right column: Text -->
+  <div class="w-full md:w-1/2 flex flex-col justify-center text-center">
+    <h2 class="text-2xl font-bold text-start text-balance text-neutral-800 md:text-3xl dark:text-neutral-200">
+        Atendimento em toda a região de Lisboa
+    </h2>
+    <p class="mt-2 text-pretty text-neutral-600 md:mt-4 dark:text-neutral-400 text-start">
+        Já realizamos trabalhos em toda a região Sul de Portugal:
+    </p>
+    <ul class="text-black dark:text-white text-start">
+        {
+            cidades.map((item, index) => (
+                <li>
+                    • {item}
+                </li>
+            ))
+        }
+    </ul>
+  </div>
+</div>

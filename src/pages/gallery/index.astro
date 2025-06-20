@@ -1,0 +1,99 @@
+---
+// Importing necessary components
+import MainLayout from "@/layouts/MainLayout.astro";
+import PrimaryCTA from "@components/ui/buttons/PrimaryCTA.astro";
+import CardSmall from "@components/ui/cards/CardSmall.astro";
+import CardWide from "@components/ui/cards/CardWide.astro";
+import FeaturesStatsAlt from "@components/sections/features/FeaturesStatsAlt.astro";
+import TestimonialsSectionAlt from "@components/sections/testimonials/TestimonialsSectionAlt.astro";
+import ShowcaseProjects from "@/components/sections/projects/ShowcaseProjects.astro";
+// Importing necessary functions from Astro
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { SITE } from "@data/constants";
+import HeroSectionAlt from "@/components/sections/landing/HeroSectionAlt.astro";
+
+// Fetching all the product related content and sorting it by main.id
+const product: CollectionEntry<"products">[] = (
+  await getCollection("products", ({ id }) => {
+    return id.startsWith("en/");
+  })
+).sort(
+  (a: CollectionEntry<"products">, b: CollectionEntry<"products">) =>
+    a.data.main.id - b.data.main.id
+);
+
+// Define variables for page content
+const title: string = "Galeria";
+const subTitle: string =
+  "Confira alguns dos nossos trabalhos.";
+
+const pageTitle: string = `Products | ${SITE.title}`;
+const metaDescription =
+  "Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts.";
+const ogTitle = "Hardware Tools | ScrewFast";
+---
+
+<MainLayout
+  title={pageTitle}
+  customDescription={metaDescription}
+  customOgTitle={ogTitle}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://screwfast.uk/products",
+    url: "https://screwfast.uk/products",
+    name: "Hardware Tools | ScrewFast",
+    description:
+      "Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts.",
+    isPartOf: {
+      "@type": "WebSite",
+      url: "https://screwfast.uk",
+      name: "ScrewFast",
+      description:
+        "ScrewFast offers top-tier hardware tools and expert construction services to meet all your project needs.",
+    },
+    inLanguage: "en-US",
+  }}
+>
+  <div
+    class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
+  >
+    <div class="mb-4 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
+      <div class="flex items-center gap-12">
+        <h1
+          class="text-2xl font-bold tracking-tight text-balance text-neutral-800 md:text-4xl md:leading-tight dark:text-neutral-200"
+        >
+          {title}
+        </h1>
+        {
+          subTitle && (
+            <p class="hidden max-w-(--breakpoint-sm) text-pretty text-neutral-600 md:block dark:text-neutral-400">
+              {subTitle}
+            </p>
+          )
+        }
+      </div>
+      <!-- <PrimaryCTA title="Customer Stories" url="#testimonials" noArrow={true} /> -->
+    </div>
+    <!-- Gallery goes here -->
+    <div class="w-full">
+      <ShowcaseProjects />
+    </div>
+  </div>
+  {/* Features statistics section */}
+  <FeaturesStatsAlt
+    title="Por que escolher JM Remodelações?"
+    subTitle="Transforme as suas ideias para os ambientes que você frequenta em realidade."
+    benefits={[
+      "Mais de 10 anos no mercado de renovações.",
+      "Entrega dentro do prazo combinado.",
+      "Enorme satisfação dos clientes.",
+    ]}
+  />
+  <HeroSectionAlt
+    title="Se Interessou Em Ter Seu Ambiente Renovado?"
+    subTitle="Melhore a qualidade do seu lar com nossos serviços."
+    url="https://github.com/mearashadowfax/ScrewFast"
+  />
+</MainLayout>

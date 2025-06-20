@@ -1,0 +1,80 @@
+---
+import { Image } from "astro:assets";
+import image1 from "@images/g1.jpeg"
+import image2 from "@images/g2.jpeg"
+import image3 from "@images/g3.jpeg"
+import image4 from "@images/g4.jpeg"
+import image5 from "@images/g5.jpeg"
+import image6 from "@images/g6.jpeg"
+import image7 from "@images/g7.jpeg"
+import image8 from "@images/g8.jpeg"
+import image9 from "@images/g9.jpeg"
+import image10 from "@images/g10.jpeg"
+import image11 from "@images/g11.jpeg"
+import image12 from "@images/g12.jpeg"
+
+const portfolioImages = [
+  {
+    src: image1,
+    alt: 'Project 1 - Modern kitchen design',
+  },
+  {
+    src: image2,
+    alt: 'Project 2 - Cozy living room',
+  },
+  {
+    src: image3,
+    alt: 'Project 3 - Contemporary bathroom',
+  },
+  {
+    src: image4,
+    alt: 'Project 4 - Stylish workspace',
+  },
+  {
+    src: image5,
+    alt: 'Project 5 - Outdoor patio',
+  },
+  {
+    src: image6,
+    alt: 'Project 6 - Minimal bedroom',
+  },
+  {
+    src: image7,
+    alt: 'Project 7 - Modern staircase',
+  },
+  {
+    src: image8,
+    alt: 'Project 8 - Elegant dining area',
+  },
+  {
+    src: image9,
+    alt: 'Project 9 - Home office setup',
+  },
+  {
+    src: image10,
+    alt: 'Project 10 - Entryway detail',
+  },
+  {
+    src: image11,
+    alt: 'Project 11 - Reading nook',
+  },
+  {
+    src: image12,
+    alt: 'Project 12 - Balcony space',
+  },
+]
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  {portfolioImages.map((image, index) => (
+    <div key={index} class="rounded-lg overflow-hidden shadow-md">
+      <Image 
+        src={image.src} 
+        alt={image.alt} 
+        class="w-full h-auto object-cover transition-transform duration-300 hover:scale-105" 
+        loading="lazy"
+        draggable="false"
+      />
+    </div>
+  ))}
+</div>

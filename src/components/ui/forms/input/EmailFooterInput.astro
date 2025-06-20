@@ -1,0 +1,202 @@
+---
+const {
+  label = "Search",
+  title = Astro.currentLocale === "fr" ? "S'abonner" : "Enviar",
+  id = "footer-input",
+} = Astro.props;
+
+interface Props {
+  label?: string;
+  title?: string;
+  id?: string;
+}
+
+const placeholder = Astro.currentLocale === "fr" ? "Entrez votre email" : "Insira seu e-mail";
+const currentLocale = Astro.currentLocale || "pt";
+---
+
+<div class="email-form-container">
+  <form
+    method="POST"
+    action="/api/sendEmail"
+    enctype="application/x-www-form-urlencoded"
+    novalidate
+    id="email-form"
+    class="mt-4 w-full flex items-center gap-2 rounded-lg bg-neutral-200 p-2 dark:bg-neutral-800 sm:flex-row sm:gap-3"
+    data-no-redirect="true"
+  >
+    <div class="w-full">
+      <label for={id} class="sr-only">{label}</label>
+      <input
+        type="email"
+        id={id}
+        name="email"
+        required
+        class="block w-full rounded-lg border-transparent bg-neutral-100 px-4 py-3 text-sm text-neutral-600 focus:border-orange-400 focus:ring-orange-400 disabled:pointer-events-none disabled:opacity-50 dark:border-transparent dark:bg-neutral-700 dark:text-gray-300 dark:placeholder:text-neutral-300 caret-orange-400"
+        placeholder={placeholder}
+      />
+    </div>
+    <button
+      type="submit"
+      id="submit-btn"
+      class="inline-flex w-full items-center justify-center gap-x-2 whitespace-nowrap rounded-lg border border-transparent bg-orange-400 p-3 text-sm font-bold text-neutral-50 outline-hidden ring-zinc-500 transition duration-300 hover:bg-orange-500 focus-visible:ring-3 disabled:pointer-events-none disabled:opacity-50 dark:ring-zinc-200 dark:focus:outline-hidden dark:focus:ring-1 sm:w-auto"
+    >
+      <span id="btn-text">{title}</span>
+      <span id="btn-loading" class="hidden">Enviando...</span>
+    </button>
+  </form>
+
+  <div id="form-message" class="mt-2 text-sm hidden"></div>
+</div>
+
+<script define:vars={{ currentLocale }}>
+  function initEmailForm() {
+    
+    const form = document.getElementById('email-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnLoading = document.getElementById('btn-loading');
+    const messageDiv = document.getElementById('form-message');
+    const emailInput = document.getElementById('footer-input');
+
+    if (!form || !submitBtn || !btnText || !btnLoading || !messageDiv || !emailInput) {
+      console.error('Some form elements not found:', {
+        form: !!form,
+        submitBtn: !!submitBtn,
+        btnText: !!btnText,
+        btnLoading: !!btnLoading,
+        messageDiv: !!messageDiv,
+        emailInput: !!emailInput
+      });
+      return;
+    }
+
+    // Mark form as initialized to prevent double initialization
+    form.setAttribute('data-initialized', 'true');
+
+    // Add the submit event listener
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const email = emailInput.value.trim();
+      
+      if (!email) {
+        showMessage('Por favor, insira um email válido.', 'error');
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showMessage('Por favor, insira um email válido.', 'error');
+        return;
+      }
+
+      setLoadingState(true);
+      showMessage('', 'success');
+
+      try {
+        const formData = new URLSearchParams();
+        formData.append('email', email);
+        formData.append('locale', currentLocale);
+
+        const response = await fetch('/api/sendEmail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+          body: formData
+        });
+
+        if (response.ok) {
+          const successMessage = currentLocale === 'fr' 
+            ? 'Email envoyé avec succès! Nous vous contacterons bientôt.'
+            : 'Email enviado com sucesso! Entraremos em contato em breve.';
+          showMessage(successMessage, 'success');
+          emailInput.value = '';
+        } else {
+          let errorMessage = 'Erro ao enviar email. Tente novamente.';
+          
+          if (response.status === 429) {
+            errorMessage = currentLocale === 'fr'
+              ? 'Trop de tentatives. Veuillez réessayer plus tard.'
+              : 'Muitas tentativas. Tente novamente mais tarde.';
+          } else if (response.status === 403) {
+            errorMessage = currentLocale === 'fr'
+              ? 'Accès refusé. Veuillez rafraîchir la page et réessayer.'
+              : 'Acesso negado. Recarregue a página e tente novamente.';
+          } else {
+            try {
+              const errorText = await response.text();
+              if (errorText) {
+                errorMessage = errorText;
+              }
+            } catch {
+              // Use default error message
+            }
+          }
+          
+          showMessage(errorMessage, 'error');
+          console.log('Email send failed:', errorMessage);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+        const errorMessage = currentLocale === 'fr'
+          ? 'Erreur lors de l\'envoi de l\'email. Veuillez réessayer.'
+          : 'Erro ao enviar email. Tente novamente.';
+        showMessage(errorMessage, 'error');
+      } finally {
+        setLoadingState(false);
+      }
+    });
+
+    function setLoadingState(loading) {
+      if (loading) {
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
+      } else {
+        submitBtn.disabled = false;
+        btnText.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+      }
+    }
+
+    function showMessage(message, type) {
+      messageDiv.textContent = message;
+      messageDiv.className = `mt-2 dark:text-white text-sm ${type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`;
+      messageDiv.classList.toggle('hidden', !message);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEmailForm);
+  } else {
+    initEmailForm();
+  }
+
+  // Also try on window load as a fallback
+  window.addEventListener('load', function() {
+    // Check if form is already initialized
+    const form = document.getElementById('email-form');
+    if (form && !form.hasAttribute('data-initialized')) {
+      initEmailForm();
+    }
+  });
+
+  document.addEventListener('submit', function(e) {
+    const target = e.target;
+    if (target && target.id === 'email-form') {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // If our main handler didn't work, try to initialize it
+      if (!target.hasAttribute('data-initialized')) {
+        console.log('Form not initialized, trying to initialize now...');
+        initEmailForm();
+      }
+    }
+  });
+</script>

@@ -1,0 +1,60 @@
+---
+// Import SecondaryCTA component for use in this module
+import SecondaryCTA from "@components/ui/buttons/SecondaryCTA.astro";
+import Icon from "@components/ui/icons/Icon.astro";
+
+// Define props from Astro
+const { pricing } = Astro.props;
+
+// Define TypeScript type for products.
+type Product = {
+  name: string;
+  description: string;
+  price: string;
+  cents: string;
+  billingFrequency: string;
+  features: Array<string>;
+  purchaseBtnTitle: string;
+  purchaseLink: string;
+};
+
+interface PricingSectionProps {
+  title: string;
+  subTitle: string;
+  badge: string;
+  thirdOption: string;
+  btnText: string;
+  pricing: {
+    title: string;
+    subTitle: string;
+    starterKit: Product;
+    professionalToolbox: Product;
+  };
+}
+---
+
+<section
+  class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 2xl:max-w-full"
+>
+  <!-- Section heading and sub-heading -->
+  <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
+    <h2
+      class="text-balance text-2xl font-bold tracking-tight text-neutral-800 dark:text-neutral-200 md:text-4xl md:leading-tight"
+    >
+      {pricing.title}
+    </h2>
+    <p class="mt-1 text-pretty text-neutral-600 dark:text-neutral-400">
+      {pricing.subTitle}
+    </p>
+  </div>
+  <!-- Contains two main product blocks -->
+ 
+  <!-- Call to action for Enterprise Solutions -->
+  <div class="mt-8 flex items-center justify-center gap-x-3 md:mt-12">
+    <p class="text-sm text-neutral-600 dark:text-neutral-400">
+      {pricing.thirdOption}
+    </p>
+
+    <SecondaryCTA title={pricing.btnText} url={pricing.linkToRedirect} />
+  </div>
+</section>

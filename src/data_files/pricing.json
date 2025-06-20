@@ -1,0 +1,39 @@
+{
+  "title": "Se interessou em ter seu ambiente renovado?",
+  "subTitle": "Melhore a qualidade do seu lar com nossos serviços.",
+  "badge": "Best value",
+  "thirdOption": "Entre em contato",
+  "btnText": "Pedir um orçamento",
+  "linkToRedirect": "https://wa.me/+351966467368",
+
+  "starterKit": {
+    "name": "Starter Kit",
+    "description": "Best option for DIY projects",
+    "price": "49",
+    "cents": ".00",
+    "billingFrequency": "USD / monthly",
+    "features": [
+      "Key hardware tools",
+      "Access to guides & tutorials",
+      "Standard support"
+    ],
+    "purchaseBtnTitle": "Get the Starter Kit",
+    "purchaseLink": "/products"
+  },
+
+  "professionalToolbox": {
+    "name": "Professional Toolbox",
+    "description": "Best for large scale uses",
+    "price": "89",
+    "cents": ".00",
+    "billingFrequency": "USD / monthly",
+    "features": [
+      "Premium tool selection",
+      "Priority support",
+      "Exclusive content & deals",
+      "Bulk order discounts"
+    ],
+    "purchaseBtnTitle": "Get the Professional Toolbox",
+    "purchaseLink": "#"
+  }
+}
