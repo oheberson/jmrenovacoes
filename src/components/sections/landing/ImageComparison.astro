@@ -185,8 +185,8 @@ import { Image } from 'astro:assets';
 
 <script>
   // Ensuring the slider element is available and type-safe
-  const container = document.querySelector('.container');
-  const slider = document.querySelector('.slider');
+  const container = document.querySelector('.container') as HTMLElement;
+  const slider = document.querySelector('.slider') as HTMLInputElement;
 
   if (container && slider) {
     slider.addEventListener('input', (e) => {
