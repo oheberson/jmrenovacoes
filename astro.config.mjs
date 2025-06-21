@@ -13,15 +13,13 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
+  output: "static",
   // adapter: netlify({
   //  functionPerRoute: false,
   //  edgeMiddleware: false,
   //  includeFiles: ['./src/**/*'],
   //}),
-  adapter: node({
-    mode: "standalone",
-  }),
+  adapter: netlify(),
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
   site: "https://jmrenovacoes.com",
   image: {

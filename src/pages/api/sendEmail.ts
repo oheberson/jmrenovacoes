@@ -10,6 +10,7 @@ import {
   getClientIP 
 } from "@utils/emailConfig";
 
+export const prerender = false
 
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
