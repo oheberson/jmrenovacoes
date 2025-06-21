@@ -10,15 +10,18 @@ import icon from "astro-icon";
 
 import react from "@astrojs/react";
 import netlify from "@astrojs/netlify";
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  adapter: netlify({
-    // Ensure proper function generation
-    functionPerRoute: false,
-    // Disable edge functions to avoid Node.js module issues
-    edgeMiddleware: false,
+  // adapter: netlify({
+  //  functionPerRoute: false,
+  //  edgeMiddleware: false,
+  //  includeFiles: ['./src/**/*'],
+  //}),
+  adapter: node({
+    mode: "standalone",
   }),
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
   site: "https://jmrenovacoes.com",
@@ -145,7 +148,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     ssr: {
       // Ensure Node.js modules are properly resolved
-      noExternal: ['react', 'react-dom'],
+      noExternal: ["react", "react-dom"],
     },
   },
 });
