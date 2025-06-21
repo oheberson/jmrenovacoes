@@ -19,8 +19,8 @@ export default defineConfig({
   //  edgeMiddleware: false,
   //  includeFiles: ['./src/**/*'],
   //}),
-  //adapter: netlify(),
-  adapter: node({ mode: "standalone" }),
+  adapter: netlify(),
+  //adapter: node({ mode: "standalone" }),
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
   site: "https://jmrenovacoes.com",
   image: {
