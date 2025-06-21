@@ -2,6 +2,7 @@
 // Import the necessary dependencies.
 import AuthBtn from "@components/ui/buttons/AuthBtn.astro";
 import ContactIconBlock from "@components/ui/blocks/ContactIconBlock.astro";
+import EmailContact from "@components/sections/navbar&footer/EmailContact.astro";
 import TextInput from "@components/ui/forms/input/TextInput.astro";
 import EmailContactInput from "@components/ui/forms/input/EmailContactInput.astro";
 import PhoneInput from "@components/ui/forms/input/PhoneInput.astro";
@@ -104,14 +105,25 @@ const formSubTitle: string = "We'll get back to you in 1-2 business days.";
           ><Icon name="mapPin" />
         </ContactIconBlock>
 
-        <ContactIconBlock
-          heading="Contact us by email"
-          content="Prefer the written word? Drop us an email at"
-          isLinkVisible={true}
-          linkTitle="support@screwfast.uk"
-          linkURL="#"
-          ><Icon name="envelopeOpen" />
-        </ContactIconBlock>
+        <!-- Email contact section using the new EmailContact component -->
+        <div class="flex gap-x-7 py-6">
+          <Icon name="envelopeOpen" />
+          <div class="grow">
+            <h3 class="font-bold text-neutral-700 dark:text-neutral-300">
+              Contact us by email
+            </h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+              Prefer the written word? Drop us an email at jonas@jmrenovacoes.com
+            </p>
+            <div class="mt-2">
+              <EmailContact 
+                title="Send Email" 
+                subject="General inquiry from contact page"
+                variant="secondary"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

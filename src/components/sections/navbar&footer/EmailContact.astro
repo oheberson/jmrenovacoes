@@ -1,0 +1,49 @@
+---
+import { Icon } from 'astro-icon/components';
+
+// Destructure the properties from Astro.props
+const { title = "Entre em contato", subject = "Gostaria de mais informações", variant = "primary" } = Astro.props;
+
+// Define TypeScript interface for the properties
+interface Props {
+  title?: string;
+  subject?: string;
+  variant?: "primary" | "secondary";
+}
+
+// Email configuration
+const emailAddress = "jonas@jmrenovacoes.com";
+const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}`;
+
+// Define CSS classes for styling the button based on variant
+const baseClasses = "group inline-flex items-center justify-center gap-x-2 rounded-lg px-4 py-3 text-sm font-bold ring-zinc-500 transition duration-300 focus-visible:ring-3 outline-hidden";
+const borderClasses = "border border-transparent";
+const disableClasses = "disabled:pointer-events-none disabled:opacity-50";
+const fontSizeClasses = "2xl:text-base";
+const ringClasses = "dark:ring-zinc-200";
+
+// Primary variant styling
+const primaryClasses = "bg-orange-400 hover:bg-orange-500 active:bg-orange-500 text-neutral-50 dark:focus:outline-hidden";
+
+// Secondary variant styling
+const secondaryBaseClasses = "inline-flex items-center justify-center gap-x-2 rounded-lg px-4 py-3 text-center text-sm font-medium text-neutral-600 shadow-xs outline-hidden ring-zinc-500 focus-visible:ring-3 transition duration-300";
+const secondaryBorderClasses = "border border-neutral-200";
+const secondaryBgClasses = "bg-neutral-300";
+const secondaryHoverClasses = "hover:bg-neutral-400/50 hover:text-neutral-600 active:text-neutral-700";
+const secondaryDarkClasses = "dark:border-neutral-700 dark:bg-zinc-700 dark:text-neutral-300 dark:ring-zinc-200 dark:hover:bg-zinc-600 dark:focus:outline-hidden";
+
+// Apply styling based on variant
+const finalClasses = variant === "primary" 
+  ? `${baseClasses} ${borderClasses} ${primaryClasses} ${disableClasses} ${fontSizeClasses} ${ringClasses}`
+  : `${secondaryBaseClasses} ${secondaryBorderClasses} ${secondaryBgClasses} ${secondaryHoverClasses} ${disableClasses} ${fontSizeClasses} ${ringClasses} ${secondaryDarkClasses}`;
+
+---
+<a
+  class={finalClasses}
+  href={mailtoUrl}
+  title={`Enviar email para ${emailAddress}`}
+  aria-label={`Enviar email para ${emailAddress}`}
+>
+  <Icon name="mdi:email-outline" />
+  {title}
+</a>
