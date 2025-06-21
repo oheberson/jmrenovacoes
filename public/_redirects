@@ -1,0 +1,23 @@
+# Astro SSR redirects for Netlify
+/*    /.netlify/functions/entry    200
+
+# Handle client-side routing for SPA-like behavior
+# This ensures that direct access to routes works properly
+/fr/*    /.netlify/functions/entry    200
+/en/*    /.netlify/functions/entry    200
+/de/*    /.netlify/functions/entry    200
+/es/*    /.netlify/functions/entry    200
+/fa/*    /.netlify/functions/entry    200
+/ja/*    /.netlify/functions/entry    200
+/zh-cn/*    /.netlify/functions/entry    200
+
+# Handle specific routes
+/blog/*    /.netlify/functions/entry    200
+/products/*    /.netlify/functions/entry    200
+/services/*    /.netlify/functions/entry    200
+/contact/*    /.netlify/functions/entry    200
+/gallery/*    /.netlify/functions/entry    200
+/insights/*    /.netlify/functions/entry    200
+
+# Redirect www to non-www (optional)
+# https://www.jmrenovacoes.com/*    https://jmrenovacoes.com/:splat    301 

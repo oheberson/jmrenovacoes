@@ -1,0 +1,79 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = ".netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+# Handle client-side routing
+[[redirects]]
+  from = "/fr/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/en/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/de/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/es/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/fa/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/ja/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/zh-cn/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+# Handle specific routes
+[[redirects]]
+  from = "/blog/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/products/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/services/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/contact/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/gallery/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
+[[redirects]]
+  from = "/insights/*"
+  to = "/.netlify/functions/entry"
+  status = 200 

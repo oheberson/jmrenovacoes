@@ -14,7 +14,12 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  adapter: netlify(),
+  adapter: netlify({
+    // Ensure proper function generation
+    functionPerRoute: false,
+    // Disable edge functions to avoid Node.js module issues
+    edgeMiddleware: false,
+  }),
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
   site: "https://jmrenovacoes.com",
   image: {
@@ -42,7 +47,7 @@ export default defineConfig({
       },
     }),
     starlight({
-      title: "ScrewFast Docs",
+      title: "JM Renovações Docs",
       defaultLocale: "root",
       // https://github.com/withastro/starlight/blob/main/packages/starlight/CHANGELOG.md
       // If no Astro and Starlight i18n configurations are provided, the built-in default locale is used in Starlight and a matching Astro i18n configuration is generated/used.
@@ -113,14 +118,14 @@ export default defineConfig({
           tag: "meta",
           attrs: {
             property: "og:image",
-            content: "https://screwfast.uk" + "/social.webp",
+            content: "https://jmrenovacoes.com" + "/social.webp",
           },
         },
         {
           tag: "meta",
           attrs: {
             property: "twitter:image",
-            content: "https://screwfast.uk" + "/social.webp",
+            content: "https://jmrenovacoes.com" + "/social.webp",
           },
         },
       ],
@@ -138,5 +143,9 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      // Ensure Node.js modules are properly resolved
+      noExternal: ['react', 'react-dom'],
+    },
   },
 });
