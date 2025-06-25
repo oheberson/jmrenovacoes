@@ -25,6 +25,14 @@ interface Props {
   customDescription?: string | null;
   customOgTitle?: string | null;
 }
+
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+
+  function gtag(...args: any[]): void;
+}
 ---
 
 <html lang={lang} class="scrollbar-hide lenis lenis-smooth scroll-pt-16">
@@ -71,6 +79,18 @@ interface Props {
     <script>
       // https://preline.co
       import "preline/preline.js";
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17265488968">
+    </script>
+   <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(...args: any[]) {
+        window.dataLayer.push(args);
+      }
+
+      gtag('js', new Date());
+      gtag('config', 'AW-17265488968');
     </script>
     <style>
       /* CSS rules for the page scrollbar */
